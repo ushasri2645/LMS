@@ -1,5 +1,7 @@
 import { Model,DataTypes } from "sequelize";
 import sequelize from "../Configuration/dbConfig"
+
+
 export const Authors = sequelize.define('Authors',{
     id:{
         type: DataTypes.INTEGER,
@@ -17,6 +19,7 @@ export const Authors = sequelize.define('Authors',{
         type:DataTypes.STRING(20)
     }
 },{
+    timestamps:false,
     tableName:'Authors'
 }) 
 

@@ -1,6 +1,7 @@
 import { Model,DataTypes } from "sequelize";
 import sequelize from "../Configuration/dbConfig"
-
+import { Loans } from "./LoansModel";
+import { Reservation } from "./ReservationModel";
 
 export const Members = sequelize.define('Members',{
     id:{
@@ -25,6 +26,8 @@ export const Members = sequelize.define('Members',{
         unique:true
     }
 },{
+    timestamps:false,
     tableName:'Members'
 })
+
 

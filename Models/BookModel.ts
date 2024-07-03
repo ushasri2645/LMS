@@ -31,6 +31,12 @@ export const Books = sequelize.define('Books',{
         type: DataTypes.INTEGER, 
     }
 },{
+    timestamps:false,
     tableName:'Books'
 })
+
+Authors.hasMany(Books,{foreignKey:'id'});
+Books.belongsTo(Authors,{foreignKey:'id'})
+
+
 

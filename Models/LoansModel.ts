@@ -2,6 +2,7 @@ import { Model,DataTypes } from "sequelize";
 import sequelize from "../Configuration/dbConfig"
 import {Books} from './BookModel';
 import { Members } from "./MembersModel";
+import { Reservation } from "./ReservationModel";
 
 
 export const Loans = sequelize.define('Loans',{
@@ -33,6 +34,13 @@ export const Loans = sequelize.define('Loans',{
         allowNull: false
     }
 },{
+    timestamps:false,
     tableName:'Loans'
 })
+
+Loans.belongsTo(Books,{foreignKey:'id'})
+Loans.belongsTo(Reservation,{foreignKey:'id'})
+Members.hasMany(Loans,{foreignKey:'id'})
+Books.hasMany(Loans,{foreignKey:'id'})
+
 

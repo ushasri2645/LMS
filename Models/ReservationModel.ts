@@ -28,6 +28,14 @@ export const Reservation = sequelize.define('Reservation',{
         allowNull: false
     }
 },{
+    timestamps:false,
     tableName:'Reservation'
 })
 
+
+
+
+Members.hasMany(Reservation,{foreignKey:'id'})
+Reservation.belongsTo(Members,{foreignKey:'id'})
+Reservation.belongsTo(Books,{foreignKey:'id'})
+Books.hasMany(Reservation,{foreignKey:'id'})
