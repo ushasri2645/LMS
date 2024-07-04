@@ -36,8 +36,8 @@ export const Books = sequelize.define('Books',{
 })
 
 
-Authors.hasMany(Books,{foreignKey:'id'});
-Books.belongsTo(Authors,{foreignKey:'id'})
+// Authors.hasMany(Books,{foreignKey:'authorId'});
+// Books.belongsTo(Authors,{foreignKey:'authorId'})
 
 
 

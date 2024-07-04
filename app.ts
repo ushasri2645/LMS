@@ -12,6 +12,7 @@ import { BookService } from "./Repository/Book.repository"
 import { LoanService } from "./Repository/Loans.repository"
 import { MembersService } from "./Repository/Members.repository"
 import { ReservationService } from "./Repository/Reservation.repository"
+import { syncAssociations } from "./Insertion/Association"
 
 
 const syncDb = async() => {
@@ -27,37 +28,37 @@ const syncDb = async() => {
         await sequelize.sync({force:true});
         console.log("Sync Succesfull");
 
+        await syncAssociations();
+        console.log("Associations Synchronised");
+
         await insertAuthorsData();
         console.log("Authors Insertion Succesfull");
-        // const authors=await Authors.findAll();
-        // console.table(authors.map((author)=>author.toJSON()));
+
 
         await insertBooksData();
         console.log("Books Insertion Succesfull");
-        // const books=await Books.findAll();
-        // console.table(books.map((book)=>book.toJSON()));
-
+        
         await insertMembersData();
         console.log("Members Insertion Succesfull");
-        // const members=await Members.findAll();
-        // console.table(members.map((member:any)=>member.toJSON()));
+        
         
         await insertLoansData();
         console.log("Loans Insertion Succesfull");
-        // const loans=await Loans.findAll();
-        // console.table(loans.map((loan:any)=>loan.toJSON()));
+        
 
         await insertReservationData();
         console.log("Reservation Insertion Succesfull");
-        // const reservations=await Reservation.findAll();
-        // console.table(reservations.map((reservation:any)=>reservation.toJSON()));
-
 
         await AuthorService.getAllAuthors();
         await BookService.getAllBooks();
         await LoanService.getAllLoans();
         await MembersService.getAllMembers();
         await ReservationService.getAllReservations();
+
+        await MembersService.updateMember(1,{name:"usha",email:"usha@gmail.com"});
+        await MembersService.updateMember(2,{name:"mammu",email:"mammu@gmail.com"});
+        await MembersService.getAllMembers();
+
 
     }
     catch(error){
