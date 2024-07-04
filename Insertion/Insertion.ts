@@ -22,7 +22,6 @@ const insertAuthorsData = async () => {
     } catch (error) {
         console.error('Error inserting Authors data:', error);
       }
-
 }
 const insertBooksData= async () =>{
     try{
