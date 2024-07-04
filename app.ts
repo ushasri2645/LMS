@@ -1,12 +1,18 @@
 // const sequelize = require('./Configuration/dbConfig')
 import sequelize from "./Configuration/dbConfig"
 import {insertAuthorsData,insertBooksData,insertMembersData,insertLoansData,insertReservationData} from "./Insertion/Insertion"
+import { AuthorService } from "./Repository/Author.repository"
 
 import { Authors } from "./Models/AuthorModel"
 import {Books} from "./Models/BookModel"
 import {Loans} from './Models/LoansModel'
 import { Members } from "./Models/MembersModel"
 import { Reservation } from "./Models/ReservationModel"
+import { BookService } from "./Repository/Book.repository"
+import { LoanService } from "./Repository/Loans.repository"
+import { MembersService } from "./Repository/Members.repository"
+import { ReservationService } from "./Repository/Reservation.repository"
+
 
 const syncDb = async() => {
     await sequelize.authenticate().then(()=>{
@@ -23,28 +29,35 @@ const syncDb = async() => {
 
         await insertAuthorsData();
         console.log("Authors Insertion Succesfull");
-        const authors=await Authors.findAll();
-        console.table(authors.map((author)=>author.toJSON()));
+        // const authors=await Authors.findAll();
+        // console.table(authors.map((author)=>author.toJSON()));
 
         await insertBooksData();
         console.log("Books Insertion Succesfull");
-        const books=await Books.findAll();
-        console.table(books.map((book)=>book.toJSON()));
+        // const books=await Books.findAll();
+        // console.table(books.map((book)=>book.toJSON()));
 
         await insertMembersData();
         console.log("Members Insertion Succesfull");
-        const members=await Members.findAll();
-        console.table(members.map((member:any)=>member.toJSON()));
+        // const members=await Members.findAll();
+        // console.table(members.map((member:any)=>member.toJSON()));
         
         await insertLoansData();
         console.log("Loans Insertion Succesfull");
-        const loans=await Loans.findAll();
-        console.table(loans.map((loan:any)=>loan.toJSON()));
+        // const loans=await Loans.findAll();
+        // console.table(loans.map((loan:any)=>loan.toJSON()));
 
         await insertReservationData();
         console.log("Reservation Insertion Succesfull");
-        const reservations=await Reservation.findAll();
-        console.table(reservations.map((reservation:any)=>reservation.toJSON()));
+        // const reservations=await Reservation.findAll();
+        // console.table(reservations.map((reservation:any)=>reservation.toJSON()));
+
+
+        await AuthorService.getAllAuthors();
+        await BookService.getAllBooks();
+        await LoanService.getAllLoans();
+        await MembersService.getAllMembers();
+        await ReservationService.getAllReservations();
 
     }
     catch(error){
