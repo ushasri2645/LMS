@@ -1,6 +1,24 @@
 import { Loans } from "../Models/LoansModel";
 
 class LoanService{
+    static createLoan = async(loan:any) =>{
+        try{
+            const createdLoan=await Loans.create(loan);
+            console.log("Loan created Succesfully :",createdLoan);
+        }
+        catch(error){
+            console.log("Error creating Loan:", error);
+        }
+    }
+    static createBulkLoans = async(loans:any) => {
+        try{
+            const createdloans = await Loans.bulkCreate(loans);
+            console.log("Loans created Succesfully");
+        }
+        catch(error){
+            console.log("Error creating Loans:", error);
+        }
+    }
     static getAllLoans = async() => {
         try{
             const loans = await Loans.findAll();

@@ -1,6 +1,24 @@
 import { Members } from "../Models/MembersModel";
 
 class MembersService{
+    static createMember = async(member:any) =>{
+        try{
+            const createdMember=await Members.create(member);
+            console.log("Member created Succesfully :",createdMember);
+        }
+        catch(error){
+            console.log("Error creating Member:", error);
+        }
+    }
+    static createBulkMembers = async(members:any) => {
+        try{
+            const createdMembers = await Members.bulkCreate(members);
+            console.log("Loans created Succesfully");
+        }
+        catch(error){
+            console.log("Error creating members:", error);
+        }
+    }
     static getAllMembers = async() => {
         try{
             const members = await Members.findAll();

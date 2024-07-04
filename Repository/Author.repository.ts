@@ -1,6 +1,24 @@
 import { Authors } from "../Models/AuthorModel";
 
 class AuthorService {
+    static createAuthor = async(author:any) =>{
+        try{
+            const createdAuthor=await Authors.create(author);
+            console.log("Author created Succesfully :",createdAuthor);
+        }
+        catch(error){
+            console.log("Error creating Author:", error);
+        }
+    }
+    static createBulkAuthors = async(authors:any) => {
+        try{
+            const createdAuthors = await Authors.bulkCreate(authors);
+            console.log("Authors created Succesfully");
+        }
+        catch(error){
+            console.log("Error creating Authors:", error);
+        }
+    }
     static getAllAuthors = async() => {
         try{
             const authors = await Authors.findAll();

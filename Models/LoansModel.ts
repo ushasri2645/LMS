@@ -27,11 +27,11 @@ export const Loans = sequelize.define('Loans',{
     },
     loan_date:{
         type: DataTypes.DATE,
-        allowNull: false
+        // allowNull: false
     },
     due_date:{
         type: DataTypes.DATE,
-        allowNull: false
+        // allowNull: false
     }
 },{
     timestamps:false,

@@ -1,6 +1,24 @@
 import { Books } from "../Models/BookModel";
 
 class BookService{
+    static createBook = async(book:any) =>{
+        try{
+            const createdbook=await Books.create(book);
+            console.log("Book created Succesfully :",createdbook);
+        }
+        catch(error){
+            console.log("Error creating Book:", error);
+        }
+    }
+    static createBulkBooks = async(books:any) => {
+        try{
+            const createdBooks = await Books.bulkCreate(books);
+            console.log("Books created Succesfully");
+        }
+        catch(error){
+            console.log("Error creating Books:", error);
+        }
+    }
     static getAllBooks = async() => {
         try{
             const books = await Books.findAll();

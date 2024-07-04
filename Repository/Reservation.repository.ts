@@ -1,6 +1,24 @@
 import { Reservation } from "../Models/ReservationModel";
 
 class ReservationService{
+    static createReservation = async(reservation:any) =>{
+        try{
+            const createdReservations=await Reservation.create(reservation);
+            console.log("Reservation created Succesfully :",createdReservations);
+        }
+        catch(error){
+            console.log("Error creating Reservation:", error);
+        }
+    }
+    static createBulkReservations = async(reservations:any) => {
+        try{
+            const createdReservations = await Reservation.bulkCreate(reservations);
+            console.log("Reservations created Succesfully");
+        }
+        catch(error){
+            console.log("Error creating Reservations:", error);
+        }
+    }
     static getAllReservations = async() => {
         try{
             const reservations = await Reservation.findAll();
