@@ -1,4 +1,3 @@
-// const sequelize = require('./Configuration/dbConfig')
 import sequelize from "./Configuration/dbConfig"
 import { AuthorService } from "./Repository/Author.repository"
 
@@ -13,6 +12,7 @@ import { MembersService } from "./Repository/Members.repository"
 import { ReservationService } from "./Repository/Reservation.repository"
 import { syncAssociations } from "./Association/Association"
 import { Data } from "./Data/Data"
+import { LibraryQueries } from "./Utils/loansAndReservation"
 
 
 const syncDb = async() => {
@@ -64,6 +64,9 @@ const syncDb = async() => {
         await ReservationService.createBulkReservations(Data.reservationsData)
         await ReservationService.getAllReservations();
 
+        await ReservationService.createReservation({book_id: 1, member_id: 1, reservation_date: new Date()});
+
+        
         // await MembersService.updateMember(1,{name:"usha",email:"usha@gmail.com"});
         // await MembersService.updateMember(2,{name:"mammu",email:"mammu@gmail.com"});
         // await MembersService.getAllMembers();

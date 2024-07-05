@@ -1,10 +1,17 @@
 import { Reservation } from "../Models/ReservationModel";
+import { LibraryQueries } from "../Utils/loansAndReservation";
 
 class ReservationService{
     static createReservation = async(reservation:any) =>{
         try{
-            const createdReservations=await Reservation.create(reservation);
-            console.log("Reservation created Succesfully :",createdReservations);
+            const mem = LibraryQueries.checkLoaned(reservation);
+            if(!mem){
+                const createdReservations=await Reservation.create(reservation);
+                console.log("Reservation created Succesfully :",createdReservations);
+            }
+            else{
+                console.log("Can't create as there is a record of loan with same book id");
+            }
         }
         catch(error){
             console.log("Error creating Reservation:", error);
