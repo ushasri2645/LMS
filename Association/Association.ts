@@ -5,7 +5,7 @@ import { Members } from "../Models/MembersModel";
 import { Reservation } from "../Models/ReservationModel";
 
 
-const syncAssociations = async() =>{
+const syncAssociations = async() => {
     //Authors & Books
     Authors.hasMany(Books,{foreignKey:'authorId'});
     Books.belongsTo(Authors,{foreignKey:'authorId'});

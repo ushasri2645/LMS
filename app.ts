@@ -1,6 +1,6 @@
 import sequelize from "./Configuration/dbConfig"
 import { AuthorService } from "./Repository/Author.repository"
-
+import express, { Request, Response } from 'express';
 import { Authors } from "./Models/AuthorModel"
 import {Books} from "./Models/BookModel"
 import {Loans} from './Models/LoansModel'
@@ -13,23 +13,24 @@ import { ReservationService } from "./Repository/Reservation.repository"
 import { syncAssociations } from "./Association/Association"
 import { Data } from "./Data/Data"
 import { LibraryQueries } from "./Utils/loansAndReservation"
+import router from './Routes/index' 
 
-
+const app = express();
+app.use('/',router);
+app.use(express.json());
 const syncDb = async() => {
     await sequelize.authenticate().then(()=>{
         console.log("Success")
     }).catch((err)=>{
         console.log("Err",err)
     })
-    
-    
-    
     try{
+        // await syncAssociations();
+        // console.log("Associations Synchronised");
         await sequelize.sync({force:true});
         console.log("Sync Succesfull");
 
-        await syncAssociations();
-        console.log("Associations Synchronised");
+        
 
         // await insertAuthorsData();
         // console.log("Authors Insertion Succesfull");
@@ -48,7 +49,7 @@ const syncDb = async() => {
 
         // await insertReservationData();
         // console.log("Reservation Insertion Succesfull");
-
+        // await Authors.sync()
         await AuthorService.createBulkAuthors(Data.authorsData);
         await AuthorService.getAllAuthors();
 
@@ -75,5 +76,15 @@ const syncDb = async() => {
         console.log("Error Creating or Syncing",error)
     }
 }
+
+app.use('/api/ping', ((req:Request, res:Response) => {  
+    res.json({ message: "pong" });
+}));
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 syncDb();
