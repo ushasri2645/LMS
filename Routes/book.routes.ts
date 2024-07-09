@@ -1,5 +1,6 @@
 import {Books} from '../Models/BookModel'
 import express, { Request, Response } from 'express';
+import {bookLoans,NobooksAvailable} from '../Utils/bookutils'
 const BookRouter = express.Router();
 
 
@@ -66,4 +67,14 @@ BookRouter.delete('/book/:id', async (req:Request, res:Response) => {
     }
 });
 
+
+BookRouter.get('/bookLoans/:id',async (req:Request, res:Response)=>{
+    const bookloans = await bookLoans(parseInt(req.params.id));
+    res.send(bookloans);
+})
+
+BookRouter.get('/NobooksAvailable/:id',async(req:Request, res:Response)=>{
+    const no = await NobooksAvailable(parseInt(req.params.id));
+    res.send(`Total Books of this ${req.params.id} are:  ${no}`)
+})
 export {BookRouter}
