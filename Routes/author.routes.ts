@@ -1,5 +1,6 @@
 import {Authors} from '../Models/AuthorModel'
 import express, { Request, Response } from 'express';
+import { allauthorsBooks, authorsBooks} from '../Utils/authors';
 const AuthRouter = express.Router();
 
 
@@ -66,4 +67,15 @@ AuthRouter.delete('/authors/:id', async (req:Request, res:Response) => {
     }
 });
 
+
+AuthRouter.get('/allauthorBooks', async (req:Request, res:Response)=>{
+    const allauthors = await allauthorsBooks();
+    res.send(allauthors)
+})
+
+AuthRouter.get('/authorsBooks/:id',async (req:Request, res:Response)=> {
+    const allauthors = await authorsBooks(parseInt(req.params.id));
+    res.send(allauthors)
+
+})
 export {AuthRouter}

@@ -5,6 +5,7 @@ const authorsBooks = async (id:number)=> {
     if(author){
         const books = await Books.findAll({where:{authorId:author.id}})
         console.table(books.map((book)=>book.toJSON()));
+        return books;
     }
     else{
         console.log("Author not Found")
@@ -24,6 +25,7 @@ const allauthorsBooks = async() => {
         };
       });
     console.table(formattedAuthors)
+    return formattedAuthors;
 }
 
 export {authorsBooks,allauthorsBooks}
