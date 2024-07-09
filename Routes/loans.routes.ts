@@ -38,6 +38,9 @@ LoansRouter.post('/loans', async (req:Request, res:Response) => {
             await reduceBooks(parseInt(req.body.book_id));
             res.json(loan);
         }
+        else{
+            res.send("Book out of Stock");
+        }
     } catch (err:any) {
         res.status(400).json({message: err.message});
     }
