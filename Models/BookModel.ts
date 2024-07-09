@@ -1,6 +1,7 @@
 import { Model,DataTypes } from "sequelize";
 import sequelize from "../Configuration/dbConfig"
 import { Authors } from "./AuthorModel";
+import { Data } from "../Data/Data";
 
 export const Books = sequelize.define('Books',{
     id:{
@@ -19,6 +20,10 @@ export const Books = sequelize.define('Books',{
             key: 'id'
         }
     },
+    no_of_copies:{
+        type: DataTypes.INTEGER,
+        defaultValue:10
+    },
     genre:{
         type: DataTypes.STRING(100),
     },
@@ -29,6 +34,10 @@ export const Books = sequelize.define('Books',{
     },
     publication_year:{
         type: DataTypes.INTEGER, 
+    },
+    no_of_reservation:{
+        type:DataTypes.INTEGER,
+        defaultValue:0
     }
 },{
     timestamps:false,

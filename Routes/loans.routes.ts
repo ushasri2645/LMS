@@ -1,5 +1,6 @@
 import {Loans} from '../Models/LoansModel'
 import express, { Request, Response } from 'express';
+import {booksAvailable,reduceBooks} from '../Utils/bookutils' 
 const LoansRouter = express.Router();
 
 
@@ -31,8 +32,12 @@ LoansRouter.get('/loans/:id', async (req:Request, res:Response) => {
 // Create a new author
 LoansRouter.post('/loans', async (req:Request, res:Response) => {
     try {
-        const loan = await Loans.create(req.body);
-        res.json(loan);
+        console.log("hi",req.body)
+        if(await booksAvailable(parseInt(req.body.book_id))){
+            const loan = await Loans.create(req.body);
+            await reduceBooks(parseInt(req.body.book_id));
+            res.json(loan);
+        }
     } catch (err:any) {
         res.status(400).json({message: err.message});
     }
