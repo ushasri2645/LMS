@@ -1,8 +1,9 @@
 import {Loans} from '../Models/LoansModel'
 import express, { Request, Response } from 'express';
 import {booksAvailable,reduceBooks} from '../Utils/bookutils' 
-const LoansRouter = express.Router();
+import sequelize from '../Configuration/dbConfig';
 
+const LoansRouter = express.Router();
 
 
 // Get all authors
@@ -31,17 +32,20 @@ LoansRouter.get('/loans/:id', async (req:Request, res:Response) => {
 
 // Create a new author
 LoansRouter.post('/loans', async (req:Request, res:Response) => {
+    const t = await sequelize.transaction();
     try {
         console.log("hi",req.body)
         if(await booksAvailable(parseInt(req.body.book_id))){
-            const loan = await Loans.create(req.body);
+            const loan = await Loans.create(req.body,{transaction:t});
             await reduceBooks(parseInt(req.body.book_id));
-            res.json(loan);
+            // res.json(loan);
+            t.commit().then(()=>{res.send("Loan Created and Books reduced")}).catch((err: any)=>{res.send(`smthng went wrong: ${err}`)})
         }
         else{
             res.send("Book out of Stock");
         }
     } catch (err:any) {
+        t.rollback().then(()=>{res.send("rolledback")})
         res.status(400).json({message: err.message});
     }
 });
