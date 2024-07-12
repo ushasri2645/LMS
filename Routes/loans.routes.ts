@@ -2,6 +2,7 @@ import {Loans} from '../Models/LoansModel'
 import express, { Request, Response } from 'express';
 import {booksAvailable,reduceBooks} from '../Utils/bookutils' 
 import sequelize from '../Configuration/dbConfig';
+import { LibraryQueries } from '../Utils/loansAndReservation';
 
 const LoansRouter = express.Router();
 
@@ -39,13 +40,13 @@ LoansRouter.post('/loans', async (req:Request, res:Response) => {
             const loan = await Loans.create(req.body,{transaction:t});
             await reduceBooks(parseInt(req.body.book_id));
             // res.json(loan);
-            t.commit().then(()=>{res.send("Loan Created and Books reduced")}).catch((err: any)=>{res.send(`smthng went wrong: ${err}`)})
+            await t.commit().then(()=>{res.send("Loan Created and Books reduced")}).catch((err: any)=>{res.send(`smthng went wrong: ${err}`)})
         }
         else{
             res.send("Book out of Stock");
         }
     } catch (err:any) {
-        t.rollback().then(()=>{res.send("rolledback")})
+        await t.rollback().then(()=>{res.send("rolledback")})
         res.status(400).json({message: err.message});
     }
 });
@@ -78,4 +79,18 @@ LoansRouter.delete('/loans/:id', async (req:Request, res:Response) => {
     }
 });
 
+LoansRouter.put('/loanSubmit/:id',async (req:Request, res:Response) => {
+    try{
+        const obj = await LibraryQueries.loanSubmit(parseInt(req.params.id))
+        if(obj){
+            res.send(obj);
+        }
+        else{
+            res.send("error");
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
 export {LoansRouter}

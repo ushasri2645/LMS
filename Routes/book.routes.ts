@@ -75,6 +75,6 @@ BookRouter.get('/bookLoans/:id',async (req:Request, res:Response)=>{
 
 BookRouter.get('/NobooksAvailable/:id',async(req:Request, res:Response)=>{
     const no = await NobooksAvailable(parseInt(req.params.id));
-    res.send(`Total Books of this ${req.params.id} are:  ${no}`)
+    res.send(`Total Books of this id ${req.params.id} are:  ${no}`)
 })
 export {BookRouter}
