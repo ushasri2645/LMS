@@ -26,7 +26,11 @@ export const Reservation = sequelize.define('Reservation',{
     reservation_date:{
         type: DataTypes.DATE,
         allowNull: false
-    }
+    },
+    status:{
+        type: DataTypes.STRING,
+        defaultValue: 'Reserved' 
+    },
 },{
     timestamps:false,
     tableName:'Reservation'

@@ -1,5 +1,6 @@
 import {Reservation} from '../Models/ReservationModel'
 import express, { Request, Response } from 'express';
+import { LibraryQueries } from '../Utils/loansAndReservation';
 const ReservationRouter = express.Router();
 
 
@@ -25,7 +26,7 @@ ReservationRouter.get('/reservations/:id', async (req:Request, res:Response) => 
     }
 });
 
-ReservationRouter.post('/reservation', async (req:Request, res:Response) => {
+ReservationRouter.post('/reservations', async (req:Request, res:Response) => {
     try {
         const reservation = await Reservation.create(req.body);
         res.json(reservation);
@@ -54,7 +55,7 @@ ReservationRouter.delete('/reservations/:id', async (req:Request, res:Response) 
     try {
         const deleted = await Reservation.destroy({where: {id: req.params.id}});
         if (deleted) {
-            res.json({ message: " Reservation Deleted" });
+            res.json({ message: "Reservation Deleted" });
         } else {
             res.status(404).json({ message: "reservation Not Found" });
         }
@@ -63,4 +64,19 @@ ReservationRouter.delete('/reservations/:id', async (req:Request, res:Response) 
     }
 });
 
+
+ReservationRouter.get('/reservations/topReservation/:id', async (req:Request, res:Response) => {
+    try{
+        const reservation = await LibraryQueries.getTopReservation(parseInt(req.params.id));
+        if(reservation){
+            res.send(reservation);
+        }
+        else{
+            res.send("No reservations found")
+        }
+    }
+    catch(e){
+        console.log("Er",e)
+    }
+})
 export {ReservationRouter}

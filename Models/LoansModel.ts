@@ -37,6 +37,10 @@ export const Loans = sequelize.define('Loans',{
     isReturned:{
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+    },
+    typeOfLoan:{
+        type: DataTypes.STRING,
+        defaultValue: 'Loaned'
     }
 },{
     timestamps:false,
